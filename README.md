@@ -185,20 +185,7 @@ Erp system/
     └── package.json
 ```
 
----
 
-## 👥 Group 13 Members
-
-| # | Registration No. | Name                    |
-|---|------------------|-------------------------|
-| 1 | 23IT0513         | S G N K Piyathilaka     |
-| 2 | 23IT0514         | A P M Piyumini          |
-| 3 | 23IT0515         | S A S S Premachandra    |
-| 4 | 23IT0516         | A J Raaef               |
-| 5 | 23IT0517         | R M C B Rajapaksha      |
-| 6 | 23IT0518         | L R W S N Rajasekara    |
-
----
 
 ## 📝 License
 
