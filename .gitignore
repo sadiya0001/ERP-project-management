@@ -1,0 +1,7 @@
+.env
+node_modules/
+dist/
+tmp/
+*.exe
+*.log
+postgres_data/
