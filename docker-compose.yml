@@ -1,0 +1,65 @@
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: erp-pm-postgres
+    environment:
+      POSTGRES_USER: erp_user
+      POSTGRES_PASSWORD: erp_password
+      POSTGRES_DB: erp_project_mgmt
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - erp-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U erp_user -d erp_project_mgmt"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: erp-pm-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: erp_user
+      DB_PASSWORD: erp_password
+      DB_NAME: erp_project_mgmt
+      JWT_SECRET: erp-project-mgmt-secret-key-2024
+      SERVER_PORT: 8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - erp-network
+    restart: unless-stopped
+
+  # Vue Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: erp-pm-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - erp-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  erp-network:
+    driver: bridge
